@@ -54,7 +54,7 @@ async def handle_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await update.message.reply_text(
                     summary.text,
                     parse_mode="Markdown",
-                    reply_markup=build_quick_actions_keyboard()
+                    reply_markup=build_quick_actions_keyboard(session.language)
                 )
         return
 

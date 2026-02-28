@@ -18,20 +18,74 @@ transcript_service = TranscriptService()
 summarizer_service = SummarizerService()
 
 
-def build_quick_actions_keyboard() -> InlineKeyboardMarkup:
-    """Inline keyboard shown after every summary for quick access."""
+BUTTON_LABELS = {
+    "en": {
+        "deepdive": "🔬 Deep Dive",
+        "actionpoints": "✅ Action Points",
+        "keyterms": "🔑 Key Terms",
+        "tone": "🎭 Tone Analysis",
+        "language": "🌐 Change Language",
+        "clear": "🗑 Clear Session",
+    },
+    "hi": {
+        "deepdive": "🔬 गहराई से विश्लेषण",
+        "actionpoints": "✅ कार्य बिंदु",
+        "keyterms": "🔑 मुख्य शब्द",
+        "tone": "🎭 स्वर विश्लेषण",
+        "language": "🌐 भाषा बदलें",
+        "clear": "🗑 सत्र साफ़ करें",
+    },
+    "te": {
+        "deepdive": "🔬 లోతైన విశ్లేషణ",
+        "actionpoints": "✅ కార్యాచరణ పాయింట్లు",
+        "keyterms": "🔑 ముఖ్య నిబంధనలు",
+        "tone": "🎭 స్వరం విశ్లేషణ",
+        "language": "🌐 భాషను మార్చండి",
+        "clear": "🗑 సెషన్‌ను క్లియర్ చేయండి",
+    },
+    "kn": {
+        "deepdive": "🔬 ಆಳವಾದ ವಿಶ್ಲೇಷಣೆ",
+        "actionpoints": "✅ ಕ್ರಿಯಾ ಅಂಶಗಳು",
+        "keyterms": "🔑 ಪ್ರಮುಖ ಪದಗಳು",
+        "tone": "🎭 ಧ್ವನಿ ವಿಶ್ಲೇಷಣೆ",
+        "language": "🌐 ಭಾಷೆ ಬದಲಾಯಿಸಿ",
+        "clear": "🗑 ಸೆಶನ್ ತೆರವುಗೊಳಿಸಿ",
+    },
+    "ta": {
+        "deepdive": "🔬 ஆழமான பகுப்பாய்வு",
+        "actionpoints": "✅ செயல் புள்ளிகள்",
+        "keyterms": "🔑 முக்கிய விதிமுறைகள்",
+        "tone": "🎭 குரல் பகுப்பாய்வு",
+        "language": "🌐 மொழಿಯನ್ನು மாற்றவும்",
+        "clear": "🗑 அமர்வை அழிக்கவும்",
+    },
+    "mr": {
+        "deepdive": "🔬 सखोल विश्लेषण",
+        "actionpoints": "✅ कृती बिंदू",
+        "keyterms": "🔑 मुख्य अटी",
+        "tone": "🎭 टोन विश्लेषण",
+        "language": "🌐 भाषा बदला",
+        "clear": "🗑 सत्र साफ करा",
+    },
+}
+
+
+def build_quick_actions_keyboard(language: str = "en") -> InlineKeyboardMarkup:
+    """Inline keyboard shown after every summary for quick access, translated."""
+    labels = BUTTON_LABELS.get(language, BUTTON_LABELS["en"])
+    
     keyboard = [
         [
-            InlineKeyboardButton("🔬 Deep Dive", callback_data="action_deepdive"),
-            InlineKeyboardButton("✅ Action Points", callback_data="action_actionpoints"),
+            InlineKeyboardButton(labels["deepdive"], callback_data="action_deepdive"),
+            InlineKeyboardButton(labels["actionpoints"], callback_data="action_actionpoints"),
         ],
         [
-            InlineKeyboardButton("🔑 Key Terms", callback_data="action_keyterms"),
-            InlineKeyboardButton("🎭 Tone Analysis", callback_data="action_tone"),
+            InlineKeyboardButton(labels["keyterms"], callback_data="action_keyterms"),
+            InlineKeyboardButton(labels["tone"], callback_data="action_tone"),
         ],
         [
-            InlineKeyboardButton("🌐 Change Language", callback_data="action_languages"),
-            InlineKeyboardButton("🗑 Clear Session", callback_data="action_clear"),
+            InlineKeyboardButton(labels["language"], callback_data="action_languages"),
+            InlineKeyboardButton(labels["clear"], callback_data="action_clear"),
         ],
     ]
     return InlineKeyboardMarkup(keyboard)
@@ -96,7 +150,7 @@ async def handle_youtube_link(update: Update, context: ContextTypes.DEFAULT_TYPE
         await update.message.reply_text(
             summary.text,
             parse_mode="Markdown",
-            reply_markup=build_quick_actions_keyboard(),
+            reply_markup=build_quick_actions_keyboard(session.language),
         )
 
         await update.message.reply_text(

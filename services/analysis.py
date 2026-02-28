@@ -17,11 +17,11 @@ DEEPDIVE_PROMPT = """Provide a comprehensive, in-depth analysis of this YouTube 
 Video Title: {title}
 Transcript excerpt: {transcript_excerpt}
 
-CRITICAL: Respond ONLY in {language_name}. 
-Translate EVERYTHING including the section headers and labels below into {language_name}. 
-Do NOT use English words for headers like "Analysis" or "Context".
+MANDATORY INSTRUCTION: Respond ONLY in {language_name}.
+You MUST translate EVERYTHING into {language_name}, including the headers and labels below. 
+Do NOT keep English headers like "Deep Dive Analysis", "Background", "Context", "Core Arguments", "Insights", "Implications", "Critical Questions Raised", or "Memorable Quote".
 
-Structure your response as (translated into {language_name}):
+Structure your response as follows (BUT TRANSLATE ALL LABELS INTO {language_name}):
 
 🔬 *Deep Dive Analysis: {title}*
 
@@ -43,11 +43,11 @@ ACTIONPOINTS_PROMPT = """Extract actionable advice, tips, and steps from this Yo
 Video Title: {title}
 Transcript: {transcript_excerpt}
 
-CRITICAL: Respond ONLY in {language_name}. 
-Translate EVERYTHING including the section headers and labels below into {language_name}. 
-Do NOT use English words for headers like "Action Points" or "Strategies".
+MANDATORY INSTRUCTION: Respond ONLY in {language_name}.
+You MUST translate EVERYTHING into {language_name}, including the headers and labels below. 
+Do NOT keep English headers like "Action Points", "Immediate Actions", "Short-term Actions", "Long-term Strategies", "Tools/Resources Mentioned", or "Quick Wins".
 
-Structure your response as (translated into {language_name}):
+Structure your response as follows (BUT TRANSLATE ALL LABELS INTO {language_name}):
 
 ✅ *Action Points: {title}*
 

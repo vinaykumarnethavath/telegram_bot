@@ -33,11 +33,11 @@ Video Title: {title}
 Transcript:
 {transcript}
 
-CRITICAL: Respond ONLY in {language_name}. 
-Translate EVERYTHING including the section headers and labels below into {language_name}. 
-Do NOT use English words for headers like "Key Points" or "Timestamps".
+MANDATORY INSTRUCTION: Respond ONLY in {language_name}.
+You MUST translate EVERYTHING into {language_name}, including the labels and headers below. 
+Do NOT keep ANY English headers like "Video Title", "Key Points", "Timestamps", or "Core Takeaway".
 
-Use the following structure (translated into {language_name}):
+Use this EXACT structure, but translate the labels into {language_name}:
 
 🎥 *Video Title*: {title}
 
@@ -68,11 +68,11 @@ Video Title: {title}
 Partial summaries from transcript segments:
 {partial_summaries}
 
-CRITICAL: Respond ONLY in {language_name}. 
-Translate EVERYTHING including the section headers and labels below into {language_name}. 
-Do NOT use English words for headers like "Key Points" or "Takeaway".
+MANDATORY INSTRUCTION: Respond ONLY in {language_name}.
+You MUST translate EVERYTHING into {language_name}, including the labels and headers below. 
+Do NOT keep ANY English headers like "Video Title", "Key Points", "Timestamps", or "Core Takeaway".
 
-Use the following structure (translated into {language_name}):
+Use this EXACT structure, but translate the labels into {language_name}:
 
 🎥 *Video Title*: {title}
 

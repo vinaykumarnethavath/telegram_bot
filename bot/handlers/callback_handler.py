@@ -20,6 +20,31 @@ from storage.session_store import session_store
 logger = logging.getLogger(__name__)
 
 
+UI_MESSAGES = {
+    "en": {
+        "running_deepdive": "🔬 _Running deep dive..._",
+        "running_actionpoints": "📋 _Extracting action points..._",
+        "running_keyterms": "🔑 _Extracting key terms..._",
+        "running_tone": "🎭 _Analysing tone..._",
+        "session_cleared": "🗑 _Session cleared! Send a new YouTube link to start fresh._",
+    },
+    "hi": {
+        "running_deepdive": "🔬 _गहरा विश्लेषण चल रहा है..._",
+        "running_actionpoints": "📋 _कार्य बिंदु निकाले जा रहे हैं..._",
+        "running_keyterms": "🔑 _मुख्य शब्द निकाले जा रहे हैं..._",
+        "running_tone": "🎭 _स्वर का विश्लेषण किया जा रहा है..._",
+        "session_cleared": "🗑 _सत्र साफ़ कर दिया गया! नया YouTube लिंक भेजें शुरू करने के लिए।_",
+    },
+    "te": {
+        "running_deepdive": "🔬 _లోతైన విశ్లేషణ నడుస్తోంది..._",
+        "running_actionpoints": "📋 _కార్యాచరణ పాయింట్లు సేకరించబడుతున్నాయి..._",
+        "running_keyterms": "🔑 _ముఖ్య నిబంధనలు సేకరించబడుతున్నాయి..._",
+        "running_tone": "🎭 _స్వరం విశ్లేషించబడుతోంది..._",
+        "session_cleared": "🗑 _సెషన్ క్లియర్ చేయబడింది! కొత్త YouTube లింక్‌ను పంపండి._",
+    },
+}
+
+
 async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Route inline keyboard button presses."""
     query = update.callback_query
@@ -27,23 +52,24 @@ async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TY
 
     data = query.data
     user_id = update.effective_user.id
+    session = session_store.get_session(user_id)
+    lang = session.language or "en"
+    msgs = UI_MESSAGES.get(lang, UI_MESSAGES["en"])
 
     if data == "action_deepdive":
-        from bot.handlers.command_handlers import deepdive_command
-        # Create a fake update that uses the callback message
-        await query.message.reply_text("🔬 _Running deep dive..._", parse_mode="Markdown")
+        await query.message.reply_text(msgs["running_deepdive"], parse_mode="Markdown")
         await _run_deepdive(query.message, user_id)
 
     elif data == "action_actionpoints":
-        await query.message.reply_text("📋 _Extracting action points..._", parse_mode="Markdown")
+        await query.message.reply_text(msgs["running_actionpoints"], parse_mode="Markdown")
         await _run_actionpoints(query.message, user_id)
 
     elif data == "action_keyterms":
-        await query.message.reply_text("🔑 _Extracting key terms..._", parse_mode="Markdown")
+        await query.message.reply_text(msgs["running_keyterms"], parse_mode="Markdown")
         await _run_keyterms(query.message, user_id)
 
     elif data == "action_tone":
-        await query.message.reply_text("🎭 _Analysing tone..._", parse_mode="Markdown")
+        await query.message.reply_text(msgs["running_tone"], parse_mode="Markdown")
         await _run_tone(query.message, user_id)
 
     elif data == "action_languages":
@@ -59,7 +85,7 @@ async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TY
     elif data == "action_clear":
         session_store.clear_session(user_id)
         await query.message.reply_text(
-            "🗑 _Session cleared! Send a new YouTube link to start fresh._",
+            msgs["session_cleared"],
             parse_mode="Markdown",
         )
 

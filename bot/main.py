@@ -30,6 +30,7 @@ from bot.handlers.command_handlers import (
     language_command,
     languages_command,
     clear_command,
+    reset_command,
     stats_command,
 )
 
@@ -58,6 +59,7 @@ BOT_COMMANDS = [
     BotCommand("language",     "Switch response language"),
     BotCommand("languages",    "List all supported languages"),
     BotCommand("clear",        "Clear session & start fresh"),
+    BotCommand("reset",        "Force reset & clear history"),
     BotCommand("stats",        "Bot usage statistics"),
 ]
 
@@ -97,6 +99,7 @@ def main():
     app.add_handler(CommandHandler("language",     language_command))
     app.add_handler(CommandHandler("languages",    languages_command))
     app.add_handler(CommandHandler("clear",        clear_command))
+    app.add_handler(CommandHandler("reset",        reset_command))
     app.add_handler(CommandHandler("stats",        stats_command))
 
     # --- Inline Keyboard Callbacks ---
