@@ -17,7 +17,11 @@ DEEPDIVE_PROMPT = """Provide a comprehensive, in-depth analysis of this YouTube 
 Video Title: {title}
 Transcript excerpt: {transcript_excerpt}
 
-Respond in {language_name}. Structure your response as:
+CRITICAL: Respond ONLY in {language_name}. 
+Translate EVERYTHING including the section headers and labels below into {language_name}. 
+Do NOT use English words for headers like "Analysis" or "Context".
+
+Structure your response as (translated into {language_name}):
 
 🔬 *Deep Dive Analysis: {title}*
 
@@ -39,7 +43,11 @@ ACTIONPOINTS_PROMPT = """Extract actionable advice, tips, and steps from this Yo
 Video Title: {title}
 Transcript: {transcript_excerpt}
 
-Respond in {language_name}:
+CRITICAL: Respond ONLY in {language_name}. 
+Translate EVERYTHING including the section headers and labels below into {language_name}. 
+Do NOT use English words for headers like "Action Points" or "Strategies".
+
+Structure your response as (translated into {language_name}):
 
 ✅ *Action Points: {title}*
 

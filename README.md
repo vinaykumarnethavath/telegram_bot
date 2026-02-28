@@ -247,8 +247,6 @@ tests/test_qa.py::TestQAService::test_answer_not_in_transcript PASSED
 
 ## 📸 Screenshots
 
-> _(Add screenshots here after running the bot)_
-
 **1. Summary Response:**
 ![Summary](./screenshots/summary.png)
 
