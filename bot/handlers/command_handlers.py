@@ -20,53 +20,38 @@ language_service = LanguageService()
 
 GROQ_QUALITY_MODEL = os.getenv("GROQ_QUALITY_MODEL", "llama-3.3-70b-versatile")
 
-WELCOME_MESSAGE = """👋 *Welcome to YouTube AI Summarizer Bot!*
-_Powered by Groq ⚡ (llama-3.3-70b-versatile)_
-
-Your personal AI research assistant for YouTube:
-
-🎥 Send any YouTube link → structured summary
-💬 Ask follow-up questions → grounded answers
-🌐 Multi-language — EN, HI, KN, TA, TE, MR
-🔬 Deep dive, 🔑 Key terms, 🎭 Tone analysis
-
-*Commands:*
-/summary · /deepdive · /actionpoints
-/keyterms · /tone · /clear · /stats
-/language · /languages · /help
-
-Send a YouTube link to get started 🚀"""
-
-HELP_MESSAGE = """📖 *YouTube AI Bot — Command Guide*
-
-*📥 Input:*
-Send any YouTube URL to get a summary
-
-*❓ Q&A:*
-Ask anything after loading a video
-
-*⚡ Commands:*
-/summary — Re-send last summary
-/deepdive — In-depth analysis
-/actionpoints — Actionable items
-/keyterms — Key terms & glossary
-/tone — Tone & sentiment analysis
-/clear — Reset your session
-/reset — Force reset bot state
-/stats — Usage statistics
-/language <name> — Switch language
-/languages — All supported languages
-
-*🌐 Languages:* EN · HI · KN · TA · TE · MR
-Switch: `Summarize in Hindi` or `/language kannada`"""
+MESSAGES = {
+    "en": {
+        "welcome": "👋 *Welcome, {name}!*\n\nYour personal AI research assistant for YouTube:\n\n🎥 Send any YouTube link → structured summary\n💬 Ask follow-up questions → grounded answers\n🌐 Multi-language — EN, HI, KN, TA, TE, MR\n🔬 Deep dive, 🔑 Key terms, 🎭 Tone analysis\n\n*Commands:*\n/summary · /deepdive · /actionpoints\n/keyterms · /tone · /clear · /stats\n/language · /languages · /help\n\nSend a YouTube link to get started 🚀",
+        "help": "📖 *YouTube AI Bot — Command Guide*\n\n*📥 Input:*\nSend any YouTube URL to get a summary\n\n*❓ Q&A:*\nAsk anything after loading a video\n\n*⚡ Commands:*\n/summary — Re-send last summary\n/deepdive — In-depth analysis\n/actionpoints — Actionable items\n/keyterms — Key terms & glossary\n/tone — Tone & sentiment analysis\n/clear — Reset your session\n/reset — Force reset bot state\n/stats — Usage statistics\n/language <name> — Switch language\n/languages — All supported languages\n\n*🌐 Languages:* EN · HI · KN · TA · TE · MR\nSwitch: `Summarize in Hindi` or `/language kannada`"
+    },
+    "hi": {
+        "welcome": "👋 *नमस्ते, {name}!*\n\nआपका व्यक्तिगत YouTube AI अनुसंधान सहायक:\n\n🎥 कोई भी YouTube लिंक भेजें → संरचित सारांश\n💬 अनुवर्ती प्रश्न पूछें → प्रमाणित उत्तर\n🌐 बहु-भाषा — EN, HI, KN, TA, TE, MR\n🔬 गहरा विश्लेषण, 🔑 मुख्य शब्द, 🎭 स्वर विश्लेषण\n\n*कमांड:*\n/summary · /deepdive · /actionpoints\n/keyterms · /tone · /clear · /stats\n/language · /languages · /help\n\nशुरू करने के लिए एक YouTube लिंक भेजें 🚀",
+        "help": "📖 *YouTube AI बॉट — कमांड गाइड*\n\n*📥 इनपुट:*\nसारांश प्राप्त करने के लिए कोई भी YouTube URL भेजें\n\n*❓ प्रश्नोत्तर:*\nवीडियो लोड करने के बाद कुछ भी पूछें\n\n*⚡ कमांड:*\n/summary — पिछला सारांश फिर से भेजें\n/deepdive — गहराई से विश्लेषण\n/actionpoints — कार्य बिंदु\n/keyterms — मुख्य शब्द और शब्दावली\n/tone — स्वर और भावना विश्लेषण\n/clear — अपना सत्र साफ़ करें\n/reset — बॉट स्थिति को रीसेट करें\n/stats — उपयोग सांख्यिकी\n/language <नाम> — भाषा बदलें\n/languages — सभी समर्थित भाषाएँ\n\n*🌐 भाषाएँ:* EN · HI · KN · TA · TE · MR\nबदें: `Summarize in Hindi` या `/language kannada`"
+    },
+    "te": {
+        "welcome": "👋 *స్వాగతం, {name}!*\n\nYouTube కోసం మీ వ్యక్తిగత AI పరిశోధన సహాయకుడు:\n\n🎥 ఏదైనా YouTube లింక్‌ని పంపండి → నిర్మాణాత్మక సారాంశం\n💬 తదుపరి ప్రశ్నలు అడగండి → ఆధారిత సమాధానాలు\n🌐 బహుభాషా — EN, HI, KN, TA, TE, MR\n🔬 లోతైన విశ్లేషణ, 🔑 ముఖ్య నిబంధనలు, 🎭 స్వరం విశ్లేషణ\n\n*కమాండ్లు:*\n/summary · /deepdive · /actionpoints\n/keyterms · /tone · /clear · /stats\n/language · /languages · /help\n\nప్రారంభించడానికి ఒక YouTube లింక్‌ని పంపండి 🚀",
+        "help": "📖 *YouTube AI బాట్ — కమాండ్ గైడ్*\n\n*📥 ఇన్పుట్:*\nసారాంశం పొందడానికి ఏదైనా YouTube URLని పంపండి\n\n*❓ Q&A:*\nవీడియో లోడ్ అయిన తర్వాత ఏదైనా అడగండి\n\n*⚡ కమాండ్లు:*\n/summary — చివరి సారాంశాన్ని మళ్ళీ పంపు\n/deepdive — లోతైన విశ్లేషణ\n/actionpoints — కార్యాచరణ అంశాలు\n/keyterms — ముఖ్య నిబంధనలు & పదకోశం\n/tone — స్వరం & సెంటిమెంట్ విశ్లేషణ\n/clear — మీ సెషన్‌ను క్లియర్ చేయండి\n/reset — బాట్ స్థితిని రీసెట్ చేయండి\n/stats — వినియోగ గణాంకాలు\n/language <పేరు> — భాషను మార్చండి\n/languages — అన్ని మద్దతు ఉన్న భాషలు\n\n*🌐 భాషలు:* EN · HI · KN · TA · TE · MR\nమార్చండి: `Summarize in Hindi` లేదా `/language kannada`"
+    }
+}
 
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(WELCOME_MESSAGE, parse_mode="Markdown")
+    user_id = update.effective_user.id
+    user_name = update.effective_user.first_name
+    session = session_store.get_session(user_id)
+    lang = session.language or "en"
+    msgs = MESSAGES.get(lang, MESSAGES["en"])
+    text = msgs["welcome"].format(name=user_name)
+    await update.message.reply_text(text, parse_mode="Markdown")
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(HELP_MESSAGE, parse_mode="Markdown")
+    user_id = update.effective_user.id
+    session = session_store.get_session(user_id)
+    lang = session.language or "en"
+    msgs = MESSAGES.get(lang, MESSAGES["en"])
+    await update.message.reply_text(msgs["help"], parse_mode="Markdown")
 
 
 async def languages_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -100,10 +85,15 @@ async def language_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     session_store.set_language(user_id, lang_code)
     lang_name = language_service.get_display_name(lang_code)
-    await update.message.reply_text(
-        f"✅ Language switched to *{lang_name}*!",
-        parse_mode="Markdown",
-    )
+    
+    switch_msgs = {
+        "en": f"✅ Language switched to *{lang_name}*!",
+        "hi": f"✅ भाषा बदलकर *{lang_name}* कर दी गई है!",
+        "te": f"✅ భాష *{lang_name}* కు మార్చబడింది!",
+    }
+    msg = switch_msgs.get(lang_code, switch_msgs["en"])
+    
+    await update.message.reply_text(msg, parse_mode="Markdown")
 
     # If a video is active, regenerate summary
     session = session_store.get_session(user_id)

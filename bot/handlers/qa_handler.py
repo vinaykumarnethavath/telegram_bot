@@ -30,10 +30,14 @@ async def handle_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
         session_store.save_session(session)
         lang_name = language_service.get_display_name(lang_request)
         
-        await update.message.reply_text(
-            f"🌐 Language switched to *{lang_name}*!",
-            parse_mode="Markdown",
-        )
+        switch_msgs = {
+            "en": f"🌐 Language switched to *{lang_name}*!",
+            "hi": f"🌐 भाषा बदलकर *{lang_name}* कर दी गई है!",
+            "te": f"🌐 భాష *{lang_name}* కు మార్చబడింది!",
+        }
+        msg = switch_msgs.get(lang_request, switch_msgs["en"])
+        
+        await update.message.reply_text(msg, parse_mode="Markdown")
 
         # If a video is already active, regenerate the summary in the new language
         if session.video_id:
