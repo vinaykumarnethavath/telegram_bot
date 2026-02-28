@@ -95,7 +95,7 @@ openclaw gateway --port 18789
 Ensure you are in the project root (`telegram_bot`), then run:
 
 ```bash
-python -m bot.main
+python run.py
 ```
 
 ---
@@ -247,14 +247,14 @@ tests/test_qa.py::TestQAService::test_answer_not_in_transcript PASSED
 
 ## 📸 Screenshots
 
-**1. Summary Response:**
+**1. Video Summarization & Timestamps**
 ![Summary](./screenshots/summary.png)
 
-**2. Q&A in Hindi:**
-![QA Hindi](./screenshots/qa_hindi.png)
-
-**3. Action Points:**
+**2. Action Points**
 ![Action Points](./screenshots/actionpoints.png)
+
+**3. Contextual Q&A**
+![QA](./screenshots/qa.png)
 
 ---
 

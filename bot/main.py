@@ -81,9 +81,13 @@ def main():
 
     logger.info("🚀 Starting YouTube Summarizer Bot (Groq powered)...")
 
+    from telegram.request import HTTPXRequest
+    request_util = HTTPXRequest(connect_timeout=30.0, read_timeout=30.0)
+
     app = (
         Application.builder()
         .token(token)
+        .request(request_util)
         .post_init(post_init)
         .build()
     )
@@ -124,12 +128,4 @@ def main():
 
 
 if __name__ == "__main__":
-    import asyncio
-    import sys
-    if sys.platform == "win32":
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    try:
-        asyncio.get_event_loop()
-    except RuntimeError:
-        asyncio.set_event_loop(asyncio.new_event_loop())
     main()
